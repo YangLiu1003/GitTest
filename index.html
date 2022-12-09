@@ -3,34 +3,195 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link rel="stylesheet" href="style.css" />
-    <title>Pig Game</title>
-  </head>
-  <body>
-    <main>
-      <section class="player player--0 player--active">
-        <h2 class="name" id="name--0">Player 1</h2>
-        <p class="score" id="score--0">43</p>
-        <div class="current">
-          <p class="current-label">Current</p>
-          <p class="current-score" id="current--0">0</p>
-        </div>
-      </section>
-      <section class="player player--1">
-        <h2 class="name" id="name--1">Player 2</h2>
-        <p class="score" id="score--1">24</p>
-        <div class="current">
-          <p class="current-label">Current</p>
-          <p class="current-score" id="current--1">0</p>
-        </div>
-      </section>
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
 
-      <img src="dice-5.png" alt="Playing dice" class="dice" />
-      <button class="btn btn--new">🔄 New game</button>
-      <button class="btn btn--roll">🎲 Roll dice</button>
-      <button class="btn btn--hold">📥 Hold</button>
-    </main>
-    <script src="script.js"></script>
+      body {
+        background: #2c3e50;
+      }
+
+      .calendar {
+        width: 400px;
+        margin: 50px auto;
+      }
+
+      .calendar-tip {
+        font-size: 16px;
+        text-align: center;
+        color: #fff;
+      }
+
+      .prev {
+        float: left;
+        cursor: pointer;
+      }
+
+      .next {
+        float: right;
+        cursor: pointer;
+      }
+
+      .calendar-month {
+        text-align: center;
+        margin: 10px 0;
+        color: #fff;
+      }
+
+      ul {
+        list-style: none;
+        display: flex;
+      }
+
+      li {
+        width: 57px;
+        text-align: center;
+        height: 55px;
+        line-height: 55px;
+        font-size: 16px;
+        color: #fff;
+      }
+
+      .calendar-day {
+        display: flex;
+      }
+
+      .calendar-day span {
+        flex: 1;
+        color: #fff;
+        text-align: center;
+        height: 40px;
+        line-height: 40px;
+      }
+
+      .calendar-data {
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      li {
+        width: 57px;
+        cursor: pointer;
+      }
+
+      li:hover {
+        background: #2d3436;
+      }
+
+      .calendar-data .on {
+        color: #d63031;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="calendar" style="background: grey">
+      <div class="calendar-tip" style="background: lightblue">
+        <span class="prev">上一月</span>
+        <em id="year">2022年</em>
+        <span class="next">下一月</span>
+      </div>
+      <div class="calendar-month" style="background: rgb(133, 101, 18)">
+        五月
+      </div>
+      <div class="calendar-day" style="background: #2d3436">
+        <span>日</span>
+        <span>一</span>
+        <span>二</span>
+        <span>三</span>
+        <span>四</span>
+        <span>五</span>
+        <span>六</span>
+      </div>
+      <ul class="calendar-data" style="background: #d63031"></ul>
+    </div>
+    <script>
+      var today = new Date();
+      console.log(today);
+      var calendarDate = document.querySelector('.calendar-data');
+      var calendarMonth = document.querySelector('.calendar-month');
+      var calendarYear = document.querySelector('#year');
+      calendarMonth.innerHTML = String(today.getMonth() + 1);
+      var now = new Intl.DateTimeFormat('en-Au', { dateStyle: 'long' }).format(
+        today
+      );
+      console.log(new Date().getDay());
+      calendarMonth.innerHTML = now.split(' ')[1];
+      calendarYear.innerHTML = today.getFullYear();
+      var weekDays = today.getDay();
+      var monthDays = new Date(2022, 1, -1).getDate();
+      var htmlDoc = ' ';
+      console.log(typeof monthDays);
+      for (let i = -weekDays + 1; i < monthDays; i++) {
+        if (i > 0) htmlDoc = htmlDoc + '<li>' + i + '</li>';
+        else htmlDoc = htmlDoc + '<li> </li>';
+      }
+      calendarDate.innerHTML = htmlDoc;
+      console.log(htmlDoc);
+      //   var date = new Date();
+      //   var year = document.querySelector('#year');
+      //   var month = document.querySelector('.calendar-month');
+      //   var calendarData = document.querySelector('.calendar-data');
+      //   var prev = document.querySelector('.prev');
+      //   var next = document.querySelector('.next');
+      //   var monthArr = [
+      //     '一月',
+      //     '二月',
+      //     '三月',
+      //     '四月',
+      //     '五月',
+      //     '六月',
+      //     '七月',
+      //     '八月',
+      //     '九月',
+      //     '十月',
+      //     '十一月',
+      //     '十二月',
+      //   ];
+      //   var y, m, day, d, html, today;
+      //   calendar();
+
+      //   function calendar() {
+      //     y = date.getFullYear();
+      //     year.innerHTML = y + '年';
+
+      //     m = date.getMonth();
+      //     month.innerHTML = monthArr[m];
+      //     day = new Date(y, m, 1).getDay(); //获取每个月第一天是周几
+      //     d = new Date(y, m + 1, -1).getDate() + 1; //获取多少天
+      //     html = '';
+
+      //     //把每个月第一天之前的时间填充为空
+      //     for (var i = 0; i < day; i++) {
+      //       html += '<li> </li>';
+      //     }
+
+      //     for (var j = 1; j <= d; j++) {
+      //       if (
+      //         y == new Date().getFullYear() &&
+      //         m == new Date().getMonth() &&
+      //         j == date.getDate()
+      //       ) {
+      //         html += "<li class='on'>" + j + '</li>';
+      //       } else {
+      //         html += '<li>' + j + '</li>';
+      //       }
+      //     }
+      //     calendarData.innerHTML = html;
+      //   }
+
+      //   prev.onclick = function () {
+      //     date.setMonth(date.getMonth() - 1);
+      //     calendar();
+      //   };
+
+      //   next.onclick = function () {
+      //     date.setMonth(date.getMonth() + 1);
+      //     calendar();
+      //   };
+    </script>
   </body>
 </html>
